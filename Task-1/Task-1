@@ -31,7 +31,16 @@
     from pyspark import SparkConf
     # 创建sc
     sc = SparkContext("local","Simple")
-    
+ 
+ 
+ 2 Spark的设计与运行原理
+ 2.1 Spark 简介
+     参考网址：http://dblab.xmu.edu.cn/blog/1710-2/
+ 2.2 Spark运行架构
+     参考网址：http://dblab.xmu.edu.cn/blog/1710-2/
+ 2.3 
+ 
+
     
     
     
