@@ -38,7 +38,20 @@
      参考网址：http://dblab.xmu.edu.cn/blog/1710-2/
  2.2 Spark运行架构
      参考网址：http://dblab.xmu.edu.cn/blog/1710-2/
- 2.3 
+ 2.3 RDD运行原理
+     参考网址：http://dblab.xmu.edu.cn/blog/1681-2/
+ 2.4 Spark 安装与使用
+     见上面步骤
+ 2.5 Spark 第一个案例 WordCount
+     
+     #在jupyter notebook 中测试
+     from pyspark import SparkContext
+     sc = SparkContext( 'local', 'test')
+     logFile = "E:/ShdSpark/SparkLearn/Task-1/wordcount_test.txt"
+     logData = sc.textFile(logFile, 2).cache()
+     numAs = logData.filter(lambda line: 'a' in line).count()
+     numBs = logData.filter(lambda line: 'b' in line).count()
+     print('Lines with a: %s, Lines with b: %s' % (numAs, numBs))
  
 
     
