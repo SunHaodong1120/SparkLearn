@@ -1,0 +1,69 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+
+import findspark
+# 可在环境变量中进行设置，即PATH中加入如下地址
+from pyspark.sql import SparkSession
+from pyspark import SparkContext
+from pyspark import SparkConf
+
+# 创建sc
+sc = SparkContext("local","Simple")
+
+
+logFile = "E:/ShdSpark/SparkLearn/Task-1/wordcount_test.txt"
+# cache() 用法同persist()
+lines = sc.textFile(logFile,2).cache()
+numAs = lines.filter(lambda line: 'a' in line).count()
+numBs = lines.filter(lambda line: 'b' in line).count()
+print ('Lines with a: %s, Lines with b: %s' % (numAs, numBs))
+
+
+# 调用转化操作
+ALines = lines.filter(lambda line: "a" in line)
+BLines = lines.filter(lambda line: "b" in line)
+
+
+# 调用行动操作
+ALines.first()
+
+
+# 重用某一个RDD
+ALines.persist()
+
+ALines.count()
+
+
+# union()转化操作
+ABLines = ALines.union(BLines)
+
+
+
+# 行动操作
+ABLines.count()
+
+
+# 输出行内容
+print ("Here are the contains:")
+for line in ABLines.take(7):
+    print(line)
+
+
+# 传递函数,简单使用lambda,复杂可使用顶层函数或者定义函数
+CLines_1 = lines.filter(lambda line: "c" in line)
+
+def containsC(s):
+    return "c" in s
+CLines_2 = lines.filter(containsC)
+
+
+print(CLines_1.count())
+print(CLines_2.count())
+
+
+
+
+
+
+
