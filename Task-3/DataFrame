@@ -1,0 +1,36 @@
+
+import pandas as pd
+from pandas import read_csv,DataFrame
+from datetime import datetime,timedelta
+import time
+import numpy as np
+
+
+# 数据样例
+# 20150622,07F07318FFE50E3488B184A616167B60  DATEDAY,MSISDN
+
+# 0 设置字符显示宽度
+pd.set_option('display.width', None)
+# 设置显示最大行
+# pd.set_option('display.max_rows', None)
+# 设置精度为小数点后4位
+pd.set_option('precision', 4)
+
+
+# 导入数据
+inputpath = r'F:\Python\Pyproject\myFirstProject\datas\ProjectData\TourismTransportProject\yangzhoutest.txt'
+names = ['IMSI','REGION','TIME','LON','LAT','CELLID']
+datayuanshi = pd.read_csv(inputpath,names = names)
+dfyuanshi = pd.DataFrame(datayuanshi, columns = names)
+
+
+# 提取用户IMSI和TIME，并创建DATE
+dataIMSIDate = pd.DataFrame(dfyuanshi[['IMSI','TIME']])
+dataIMSIDate['DATE'] = dataIMSIDate['TIME'].apply(lambda x: x[0:10])
+dataIMSIDate['DATE'] = pd.to_datetime(dataIMSIDate['DATE'],format = '%Y/%m/%d')
+dataIMSIDate = dataIMSIDate.drop( ['TIME'], axis = 1)
+dataIMSIDate = dataIMSIDate.drop_duplicates(keep = 'first').reset_index(drop = True)
+dataIMSIDateSort = dataIMSIDate.sort_values(by = ['IMSI','DATE']).reset_index(drop = True)
+
+print ('-------------读取数据----------------')
+print (time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
